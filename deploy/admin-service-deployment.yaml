@@ -1,0 +1,32 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: admin-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moop
+      service: admin-service
+  template:
+    metadata:
+      labels:
+        app: moop
+        service: admin-service
+    spec:
+      containers:
+      - name: moop-admin-service
+        image: registry.mooplab.com:8443/moop/moop-admin-service:{IMAGE_TAG_for_change}
+        volumeMounts:
+        - name:  admin-service-config
+          mountPath: /app/config.py
+          subPath: config.py
+
+      imagePullSecrets:
+      - name: regcred
+
+      volumes:
+      - name:  admin-service-config
+        configMap:
+          name: admin-service-config
