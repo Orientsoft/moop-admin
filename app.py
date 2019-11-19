@@ -6,8 +6,10 @@ app = Flask(__name__)
 app.config.from_pyfile('config.py')
 
 from applications.history import history
+from applications.login import login
 
 app.register_blueprint(history)
+app.register_blueprint(login)
 
 
 @app.errorhandler(Exception)
