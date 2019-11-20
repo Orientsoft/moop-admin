@@ -10,7 +10,7 @@ projectImage = Blueprint('projectImage', __name__)
 @projectImage.route('/projects', methods=['GET'])
 def project_list():
     # 获取实验模板列表，展开镜像内容
-    db = mongoDBHelper()
+    db = mongoDBHelper('MOOP_SERVICE')
     data_list = list(db.project.find({'delete': False}))
     image_list = list(db.image.find({'delete': False}))
     # type_list = list(db.type.find({'delete': False}))
@@ -41,7 +41,7 @@ def project_list():
 @projectImage.route('/projects', methods=['PATCH'])
 def change_project_image():
     # 修改实验模板依赖镜像，不修改其他内容
-    db = mongoDBHelper()
+    db = mongoDBHelper('MOOP_SERVICE')
     projectId = request.json.get('projectid')
     imageId = request.json.get('imageid')
     db.project.update({'_id': ObjectId(projectId)}, {'$set': {'image': ObjectId(imageId)}})

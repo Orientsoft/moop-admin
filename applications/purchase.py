@@ -71,7 +71,7 @@ def insert_purchase():
 @purchase.route('/purchase', methods=['PATCH'])
 def update_purchase():
     from datetime import datetime
-    db = mongoDBHelper()
+    db = mongoDBHelper('MOOP_SERVICE')
     purchaseId = request.json.get('purchaseid')
     limit = request.json.get('limit')
     db.purchase.update_one({'_id': ObjectId(purchaseId)}, {'$set': {
@@ -83,7 +83,7 @@ def update_purchase():
 
 @purchase.route('/purchase', methods=['DELETE'])
 def delete_purchase():
-    db = mongoDBHelper()
+    db = mongoDBHelper('MOOP_SERVICE')
     purchaseId = request.json.get('purchaseid')
     db.purchase.update({'_id': ObjectId(purchaseId)}, {'$set': {'delete': True}})
     return trueReturn('delete success')
