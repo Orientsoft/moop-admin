@@ -7,9 +7,13 @@ app.config.from_pyfile('config.py')
 
 from applications.history import history
 from applications.login import login
+from applications.category import category
+from applications.tenant import tenant
 
 app.register_blueprint(history)
 app.register_blueprint(login)
+app.register_blueprint(category)
+app.register_blueprint(tenant)
 
 
 @app.errorhandler(Exception)

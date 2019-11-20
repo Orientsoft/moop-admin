@@ -2,13 +2,13 @@
 # 应用版本状态接口
 from flask import Blueprint, request
 from ext import trueReturn
+from ext import mongoDBHelper
 
 history = Blueprint('history', __name__)
 
 # 根据租户查该租户下的pod最新的一条
 @history.route('/namespace/<namespace>', methods=['get'])
 def get_pods_namespace(namespace):
-    from ext import mongoDBHelper
     db = mongoDBHelper()
     dataList = db.history.aggregate([
         {'$match': {'namespace': namespace, 'containerName': {'$regex': 'moop'}}},
@@ -32,7 +32,6 @@ def get_pods_namespace(namespace):
 # pod列表，distinct container，需要去掉jupyter
 @history.route('/pods', methods=['get'])
 def get_pods():
-    from ext import mongoDBHelper
     db = mongoDBHelper()
     dataList = db.history.distinct("containerName", {'containerName': {'$regex': 'moop'}})
     return trueReturn(dataList)
@@ -41,7 +40,6 @@ def get_pods():
 # 根据container，对比各租户的部署情况
 @history.route('/pods/<pod>', methods=['get'])
 def get_pod_list(pod):
-    from ext import mongoDBHelper
     db = mongoDBHelper()
     dataList = db.history.aggregate([
         {'$match': {'containerName': pod}},
