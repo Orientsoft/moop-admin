@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
 from flask import Flask
 from ext import falseReturn
+from flask_cors import *
 
 app = Flask(__name__)
 app.config.from_pyfile('config.py')
+CORS(app, supports_credentials=True)
 
 from applications.history import history
 from applications.login import login
