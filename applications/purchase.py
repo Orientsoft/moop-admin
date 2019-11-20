@@ -55,11 +55,11 @@ def get_purchase():
 def insert_purchase():
     from datetime import datetime
     db = mongoDBHelper()
-    purchase = request.json()
-    db.purchase.update_one({
+    purchase = request.json
+    db.purchase.insert_one({
         'purchaser': ObjectId(purchase['tenantid']),
         'project': ObjectId(purchase['projectid']),
-        'limit': datetime.strftime(purchase['expire'], '%Y-%m-%d'),
+        'limit': datetime.strptime(purchase['expire'], '%Y-%m-%d'),
         'createdAt': datetime.now(),
         'updatedAt': datetime.now(),
         'remark': purchase.get('remark'),
@@ -75,7 +75,7 @@ def update_purchase():
     purchaseId = request.json.get('purchaseid')
     limit = request.json.get('limit')
     db.purchase.update_one({'_id': ObjectId(purchaseId)}, {'$set': {
-        'limit': datetime.strftime(limit, '%Y-%m-%d'),
+        'limit': datetime.strptime(limit, '%Y-%m-%d'),
         'updatedAt': datetime.now()
     }})
     return trueReturn('update success')
