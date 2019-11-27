@@ -9,6 +9,9 @@ $.ajaxSetup({
   contentType: 'application/json',
   dataType: 'json',
   processData: false,
+  xhrFields: {
+    withCredentials: true,
+  },
   beforeSend(xhr) {
 //    this.url = 'http://192.168.0.31:31773/api/v1/' + this.url.replace(/^\/+/, '');
     this.url = '/api/v1/' + this.url.replace(/^\/+/, '');
