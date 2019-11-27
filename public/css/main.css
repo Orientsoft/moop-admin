@@ -1,0 +1,80 @@
+html, body {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  font-size: 14px;
+}
+
+a {
+  cursor: pointer;
+}
+
+textarea[readonly] {
+  width: 100%;
+  border: none;
+  resize: none;
+  cursor: auto;
+  outline: none;
+}
+
+.page {
+  margin: auto;
+  max-width: 1024px;
+}
+
+.qrcode {
+  padding: 8em 0;
+  text-align: center;
+}
+
+.sui-nav.nav-tabs.nav-primary.tab-vertical {
+  padding: 0 2px;
+  width: 170px;
+  border-right: none;
+  background: whitesmoke;
+}
+
+.sui-nav.nav-tabs.nav-primary.tab-vertical li {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.icon-large {
+  font-size: 18px;
+}
+
+.sui-modal .modal-body {
+  min-height: 1em;
+}
+
+.modal-dialog .sui-form.form-horizontal .control-group:last-child,
+.modal-dialog .sui-form .control-group:last-child,
+.modal-dialog .sui-form {
+  margin-bottom: 0;
+}
+
+.sui-nav.nav-tabs.nav-primary.tab-vertical > .active > a {
+  border-radius: 3px;
+}
+
+.sui-form.form-horizontal .control-group,
+.sui-form.form-horizontal .controls {
+  display: flex;
+}
+
+.sui-form.form-horizontal .controls,
+.sui-form.form-horizontal .controls > * {
+  flex: 1;
+}
+
+.sui-form.form-horizontal .control-label {
+  width: 60px;
+}
+
+.sui-dropdown-menu {
+  max-height: 200px;
+  box-shadow: none;
+  overflow: scroll;
+}
