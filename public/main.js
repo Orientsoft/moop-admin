@@ -1,5 +1,5 @@
 requirejs.config({
-  baseUrl: 'js',
+  baseUrl: 'public/js',
   paths: {
     preact: 'lib/htm-preact.umd',
   },
@@ -10,7 +10,8 @@ $.ajaxSetup({
   dataType: 'json',
   processData: false,
   beforeSend(xhr) {
-    this.url = 'http://192.168.0.31:31773/api/v1/' + this.url.replace(/^\/+/, '');
+//    this.url = 'http://192.168.0.31:31773/api/v1/' + this.url.replace(/^\/+/, '');
+    this.url = '/api/v1/' + this.url.replace(/^\/+/, '');
   },
 });
 

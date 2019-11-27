@@ -3,11 +3,13 @@
 from flask import Blueprint, request
 from ext import trueReturn, falseReturn, mongoDBHelper
 from bson import ObjectId
+from applications.tools import login_required
 
 category = Blueprint('category', __name__)
 
 
 @category.route('/category', methods=['GET'])
+@login_required
 def get_category_data():
     db = mongoDBHelper('MOOP_SERVICE')
     dataList = db.category.aggregate([
@@ -25,6 +27,7 @@ def get_category_data():
 
 
 @category.route('/category', methods=['POST'])
+@login_required
 def add_category_data():
     name = request.json.get('name', None)
     if name:
@@ -36,6 +39,7 @@ def add_category_data():
 
 
 @category.route('/category', methods=['PATCH'])
+@login_required
 def update_category_data():
     categoryid = request.json.get('categoryid', None)
     name = request.json.get('name', None)
@@ -49,6 +53,7 @@ def update_category_data():
 
 # 向某一个分类中添加学科
 @category.route('/category/type', methods=['POST'])
+@login_required
 def add_category_type_data():
     categoryid = request.json.get('categoryid', None)
     name = request.json.get('name', None)
@@ -64,6 +69,7 @@ def add_category_type_data():
 
 # 修改某一个分类中的学科名字
 @category.route('/category/type', methods=['PATCH'])
+@login_required
 def update_category_type_data():
     categoryid = request.json.get('categoryid', None)
     typeid = request.json.get('typeid', None)

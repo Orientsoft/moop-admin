@@ -12,6 +12,7 @@ FROM base
 COPY --from=builder /install /usr/local
 WORKDIR /app
 COPY applications ./applications
+COPY public ./public
 COPY app.py ./
 COPY ext.py ./
 

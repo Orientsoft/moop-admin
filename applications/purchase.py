@@ -4,11 +4,13 @@ from flask import Blueprint, request
 from ext import trueReturn, mongoDBHelper
 from bson import ObjectId
 from datetime import datetime
+from applications.tools import login_required
 
 purchase = Blueprint('puchase', __name__)
 
 
 @purchase.route('/purchase', methods=['GET'])
+@login_required
 def get_purchase():
     db = mongoDBHelper('MOOP_SERVICE')
     # purchase_list = list(db.purchase.find({'delete': False}))
@@ -68,6 +70,7 @@ def get_purchase():
 
 
 @purchase.route('/purchase', methods=['POST'])
+@login_required
 def insert_purchase():
     db = mongoDBHelper('MOOP_SERVICE')
     purchase = request.json
@@ -84,6 +87,7 @@ def insert_purchase():
 
 
 @purchase.route('/purchase', methods=['PATCH'])
+@login_required
 def update_purchase():
     from datetime import datetime
     db = mongoDBHelper('MOOP_SERVICE')
@@ -97,6 +101,7 @@ def update_purchase():
 
 
 @purchase.route('/purchase', methods=['DELETE'])
+@login_required
 def delete_purchase():
     db = mongoDBHelper('MOOP_SERVICE')
     purchaseId = request.json.get('purchaseid')

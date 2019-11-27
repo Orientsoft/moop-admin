@@ -3,11 +3,13 @@
 from flask import Blueprint, request
 from ext import trueReturn, falseReturn, mongoDBHelper
 from bson import ObjectId
+from applications.tools import login_required
 
 tenant = Blueprint('tenant', __name__)
 
 
 @tenant.route('/tenants', methods=['GET'])
+@login_required
 def get_tenant_data():
     db = mongoDBHelper('MOOP_SERVICE')
     dataList = db.tenant.find({'delete': False})
@@ -26,6 +28,7 @@ def get_tenant_data():
 
 
 @tenant.route('/tenants', methods=['PATCH'])
+@login_required
 def update_tenant_data():
     tenantid = request.json.get('tenantid', None)
     limit = request.json.get('limit', None)
@@ -39,6 +42,7 @@ def update_tenant_data():
 
 
 @tenant.route('/tenants', methods=['POST'])
+@login_required
 def add_tenant_data():
     length = len(request.json['namespace'])
     if length >12:

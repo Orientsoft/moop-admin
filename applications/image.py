@@ -3,11 +3,13 @@
 from flask import Blueprint, request
 from ext import trueReturn, mongoDBHelper
 from bson import ObjectId
+from applications.tools import login_required
 
 image = Blueprint('image', __name__)
 
 
 @image.route('/images', methods=['GET'])
+@login_required
 def get_images():
     db = mongoDBHelper('MOOP_SERVICE')
     image_list = list(db.image.find({'delete': False}))
@@ -17,6 +19,7 @@ def get_images():
 
 
 @image.route('/images', methods=['POST'])
+@login_required
 def insert_image():
     db = mongoDBHelper('MOOP_SERVICE')
     image = request.json
@@ -30,6 +33,7 @@ def insert_image():
 
 
 @image.route('/images', methods=['PATCH'])
+@login_required
 def update_image():
     db = mongoDBHelper('MOOP_SERVICE')
     image = request.json

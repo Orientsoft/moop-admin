@@ -3,11 +3,13 @@
 from flask import Blueprint, request
 from ext import trueReturn, mongoDBHelper
 from bson import ObjectId
+from applications.tools import login_required
 
 projectImage = Blueprint('projectImage', __name__)
 
 
 @projectImage.route('/projects', methods=['GET'])
+@login_required
 def project_list():
     # 获取实验模板列表，展开镜像内容
     db = mongoDBHelper('MOOP_SERVICE')
@@ -39,6 +41,7 @@ def project_list():
 
 
 @projectImage.route('/projects', methods=['PATCH'])
+@login_required
 def change_project_image():
     # 修改实验模板依赖镜像，不修改其他内容
     db = mongoDBHelper('MOOP_SERVICE')

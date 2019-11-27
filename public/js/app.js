@@ -47,7 +47,7 @@ define(['preact', 'config', 'components/header', 'components/sidebar', 'config']
     render(props, { current, user, error }) {
       const page = pages.find(page => page.name === current);
 
-      user = true;
+//      user = true;
 
       return preact.html`
         <div class="sui-layout">
