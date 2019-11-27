@@ -12,7 +12,11 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
       this.columns = [
         {
           title: '名称',
-          field: 'name',
+          field: 'containerName',
+        },
+        {
+          title: '镜像',
+          field: 'image',
         },
         {
           title: '命名空间',
