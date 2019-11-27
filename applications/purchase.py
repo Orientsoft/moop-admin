@@ -52,8 +52,14 @@ def get_purchase():
     #     purchase['_id'] = str(purchase['_id'])
     #     purchase['purchaser'] = str(purchase['purchaser'])
     result = []
+    tenantid = request.args.get('tenantid', None)
+    filterObj = {
+        'delete': False
+    }
+    if tenantid:
+        filterObj['purchaser'] = ObjectId(tenantid)
     dataList = db.purchase.aggregate([
-        {'$match': {'delete': False}},
+        {'$match': filterObj},
         {"$lookup": {'from': 'tenant', 'localField': 'purchaser', 'foreignField': '_id', 'as': 'tenant'}},
         {"$lookup": {'from': 'project', 'localField': 'project', 'foreignField': '_id', 'as': 'project'}},
     ])
