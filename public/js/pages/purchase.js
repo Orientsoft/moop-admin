@@ -13,6 +13,7 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
         tenants: [],
         projects: [],
         purchase: {},
+        current: null,
         visible: null,
       };
       this.columns = [
@@ -34,9 +35,6 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
           render: (value, i, item) => preact.html`<a onClick=${() => this.showExpire(item)}>${value}</a>`,
         },
       ];
-      this.header = preact.html`
-        <button class="sui-btn btn-primary btn-large pull-right" onClick=${() => this.setState({ visible: DialogType.ADD_PURCHASE, purchase: { limit: util.datetime(null, 'date') } })}>新增授权</button>
-      `;
       this.actions = [
         item => preact.html`<a onClick=${() => this.showDelete(item)}>删除</a>`,
       ];
@@ -104,8 +102,13 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
       });
     }
 
-    refresh() {
-      $.get('/purchase',(data) => this.setState({ dataSource: data.data }));
+    refresh(tenantid) {
+      if (tenantid) {
+        this.setState({ current: tenantid });
+        $.get(`/purchase?tenantid=${tenantid}`,(data) => this.setState({ dataSource: data.data }));
+      } else {
+        $.get('/purchase',(data) => this.setState({ dataSource: data.data }));
+      }
     }
 
     componentDidMount() {
@@ -114,10 +117,25 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
       $.get('/tenants',(data) => this.setState({ tenants: data.data }));
     }
 
-    render(props, { dataSource, tenants, projects, purchase, visible }) {
+    render(props, { dataSource, tenants, projects, purchase, current, visible }) {
+      const header = preact.html`
+        <div class="pull-right">
+          <span>当前选择：</span>
+          <span class="sui-dropdown dropdown-bordered dropdown-large">
+            <span class="dropdown-inner">
+              <a role="button" data-toggle="dropdown" class="dropdown-toggle">${current}<i class="caret"></i></a>
+              <ul role="menu" class="sui-dropdown-menu">
+                ${tenants.map(({ tenantid, name }) => preact.html`<li class=${current === tenantid ? 'active' : ''}><a role="menuitem" tabindex="-1" onClick=${() => this.refresh(tenantid)}>${name}</a></li>`)}
+              </ul>
+            </span>
+          </span>
+          <button class="sui-btn btn-primary btn-large pull-right" onClick=${() => this.setState({ visible: DialogType.ADD_PURCHASE, purchase: { limit: util.datetime(null, 'date') } })}>新增授权</button>
+        </div>
+      `;
+
       return preact.html`
         <div>
-          <${Table} columns=${this.columns} dataSource=${dataSource} header=${this.header} actions=${this.actions} />
+          <${Table} columns=${this.columns} dataSource=${dataSource} header=${header} actions=${this.actions} />
           <${Dialog} visible=${visible === DialogType.ADD_PURCHASE} title="新增授权" onOk=${() => this.onAddPurchase()}>
             <form class="sui-form form-horizontal" id=${DialogType.ADD_PURCHASE}>
               <div class="control-group">
