@@ -3,6 +3,7 @@
 from flask import Blueprint, request
 from ext import trueReturn, falseReturn, mongoDBHelper
 from bson import ObjectId
+import datetime
 from applications.tools import login_required
 
 tenant = Blueprint('tenant', __name__)
@@ -50,6 +51,10 @@ def add_tenant_data():
     body = {
         "activated": True,
         "logo": None,
+        "createAt": datetime.datetime.now(),
+        "updatedAt": datetime.datetime.now(),
+        "delete": False,
+        "limit":50,
         "name": request.json['name'],
         "namespace": request.json['namespace'],
         "remark": request.json['remark'],
