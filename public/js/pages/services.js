@@ -23,8 +23,8 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
           field: 'namespace',
         },
         {
-          title: '开始时间',
-          field: 'startAt',
+          title: '采集时间',
+          field: 'collectTime',
           render: value => util.datetime(value),
         },
         {
