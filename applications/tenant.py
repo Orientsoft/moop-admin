@@ -51,7 +51,7 @@ def add_tenant_data():
     body = {
         "activated": True,
         "logo": None,
-        "createAt": datetime.datetime.now(),
+        "createdAt": datetime.datetime.now(),
         "updatedAt": datetime.datetime.now(),
         "delete": False,
         "limit":50,

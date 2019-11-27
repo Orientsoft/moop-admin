@@ -13,6 +13,10 @@ define(['preact', 'components/table', 'components/dialog'], function (preact, Ta
       };
       this.columns = [
         {
+          title: '租户编号',
+          field: 'tenantid',
+        },
+        {
           title: '名称',
           field: 'name',
         },

@@ -74,18 +74,15 @@ define(['preact', 'components/table', 'components/dialog'], function (preact, Ta
       const desc = document.forms[DialogType.ADD_IMAGE].desc;
       const url = document.forms[DialogType.ADD_IMAGE].url;
       const pkg = document.forms[DialogType.ADD_IMAGE].package;
-      const parts = url.value.trim().match(/^(.*:)(\w+)$/);
 
-      if (desc.value.trim().length && parts) {
+      if (desc.value.trim().length) {
         $.post('/images', JSON.stringify({
           desc: desc.value.trim(),
-          url: parts[1],
-          tag: parts[2],
+          url: url.value.trim(),
           package: pkg.value.split('\n').map(pkg => pkg.trim()).filter(pkg => pkg),
         }), () => {
           desc.value = '';
           url.value = '';
-          tag.value = '';
           pkg.value = '';
           this.setState({ visible: null });
           this.refresh();
@@ -95,10 +92,9 @@ define(['preact', 'components/table', 'components/dialog'], function (preact, Ta
 
     onModifyImage() {
       let desc = document.forms[DialogType.MODIFY_IMAGE_DESC].desc;
-      const url = document.forms[DialogType.MODIFY_IMAGE_TAG].url;
+      let url = document.forms[DialogType.MODIFY_IMAGE_TAG].url;
       const pkg = document.forms[DialogType.MODIFY_IMAGE_PACKAGE].package;
-      const parts = url.value.trim().match(/^(.*:)(\w+)$/);
-      const data = { imageid: this.item._id };
+      const data = { imageid: this.image._id };
       let isModified = false;
 
       desc = desc.value.trim();
@@ -106,9 +102,9 @@ define(['preact', 'components/table', 'components/dialog'], function (preact, Ta
         data.desc = desc;
         isModified = true;
       }
-      if (parts && parts[2]) {
-        data.url = parts[1];
-        data.tag = parts[2];
+      url = url.value.trim();
+      if (url && url !== this.image.url) {
+        data.url = url;
         isModified = true;
       }
       if (pkg.value.trim()) {

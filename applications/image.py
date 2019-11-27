@@ -24,7 +24,7 @@ def insert_image():
     db = mongoDBHelper('MOOP_SERVICE')
     image = request.json
     db.image.insert_one({
-        'url': '%s:%s' % (image['url'], image['tag']),
+        'url': image['url'],
         'desc': image['desc'],
         'package': image['package'],
         'delete': False
@@ -37,9 +37,12 @@ def insert_image():
 def update_image():
     db = mongoDBHelper('MOOP_SERVICE')
     image = request.json
-    db.image.update({'_id': ObjectId(image['imageid'])}, {'$set': {
-        'url': '%s:%s' % (image['url'], image['tag']),
-        'desc': image['desc'],
-        'package': image['package']
-    }})
+    updateObj = {}
+    if 'desc' in image:
+        updateObj['desc'] = image['desc']
+    if 'package' in image:
+        updateObj['package'] = image['package']
+    if 'url' in image:
+        updateObj['url'] = image['url']
+    db.image.update({'_id': ObjectId(image['imageid'])}, {'$set': updateObj})
     return trueReturn('update success')
