@@ -13,7 +13,7 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
         tenants: [],
         projects: [],
         purchase: {},
-        current: null,
+        current: [],
         visible: null,
       };
       this.columns = [
@@ -102,10 +102,10 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
       });
     }
 
-    refresh(tenantid) {
-      if (tenantid) {
-        this.setState({ current: tenantid });
-        $.get(`/purchase?tenantid=${tenantid}`,(data) => this.setState({ dataSource: data.data }));
+    refresh(current) {
+      if (current) {
+        this.setState({ current });
+        $.get(`/purchase?tenantid=${current.tenantid}`,(data) => this.setState({ dataSource: data.data }));
       } else {
         $.get('/purchase',(data) => this.setState({ dataSource: data.data }));
       }
@@ -123,9 +123,9 @@ define(['preact', 'util', 'components/table', 'components/dialog'], function (pr
           <span>当前选择：</span>
           <span class="sui-dropdown dropdown-bordered dropdown-large">
             <span class="dropdown-inner">
-              <a role="button" data-toggle="dropdown" class="dropdown-toggle">${current}<i class="caret"></i></a>
+              <a role="button" data-toggle="dropdown" class="dropdown-toggle">${current.name}<i class="caret"></i></a>
               <ul role="menu" class="sui-dropdown-menu">
-                ${tenants.map(({ tenantid, name }) => preact.html`<li class=${current === tenantid ? 'active' : ''}><a role="menuitem" tabindex="-1" onClick=${() => this.refresh(tenantid)}>${name}</a></li>`)}
+                ${tenants.map(({ tenantid, name }) => preact.html`<li class=${current.tenantid === tenantid ? 'active' : ''}><a role="menuitem" tabindex="-1" onClick=${() => this.refresh({ tenantid, name })}>${name}</a></li>`)}
               </ul>
             </span>
           </span>
